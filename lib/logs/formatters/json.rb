@@ -39,8 +39,19 @@ module Logs
         return unless ENV.fetch('LOG_MEMORY_USAGE', 'false') == 'true'
         return unless log.named_tags&.dig(:start_mem)
 
+        begin
+          mem_klass = if defined?(GetProcessMem)
+                        GetProcessMem
+                      else
+                        require 'get_process_mem'
+                        GetProcessMem
+                      end
+        rescue LoadError
+          return
+        end
+
         start_mem = log.named_tags[:start_mem]
-        current_mem = GetProcessMem.new.mb.round(2)
+        current_mem = mem_klass.new.mb.round(2)
 
         hash[:memory] = {
           start: start_mem,
@@ -74,7 +85,7 @@ module Logs
 
         self.hash[:level] = log.level
         self.hash[:duration_ms] = log.duration.round(2) if log.duration
-        self.hash[:thread] = Thread.current.native_thread_id
+        self.hash[:thread] = Thread.current.respond_to?(:native_thread_id) ? Thread.current.native_thread_id : Thread.current.object_id
 
         file_name_and_line
         named_tags

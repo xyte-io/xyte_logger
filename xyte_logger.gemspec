@@ -23,5 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'activesupport'
   spec.add_dependency 'get_process_mem'
 
+  spec.add_development_dependency 'rspec', '~> 3.13'
+
   spec.metadata['source_code_uri'] = spec.homepage
 end

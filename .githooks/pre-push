@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+echo "Running RSpec before push..."
+bundle exec rspec
