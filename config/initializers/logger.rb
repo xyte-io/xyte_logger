@@ -13,6 +13,7 @@ Rails.application.reloader.to_prepare do
     formatter = is_dev ? :color : Logs::Formatters::Json.new
     filter = is_dev ? nil : Logs::Filters::Rails
 
+    config.logger = SemanticLogger['Rails']
     config.colorize_logging = is_dev
 
     config.semantic_logger.clear_appenders!
@@ -25,10 +26,13 @@ Rails.application.reloader.to_prepare do
 
     config.semantic_logger.backtrace_level = nil
 
-    config.rails_semantic_logger.quiet_assets = true
+    # Disable quiet_assets when the app does not expose an assets config (API-only apps),
+    # otherwise rails_semantic_logger will try to call config.assets and raise.
+    config.rails_semantic_logger.quiet_assets = config.respond_to?(:assets)
     config.rails_semantic_logger.started = false
     config.rails_semantic_logger.processing = false
     config.rails_semantic_logger.rendered = false
+    config.rails_semantic_logger.add_file_appender = false
 
     SemanticLogger.add_signal_handler
   end
