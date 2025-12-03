@@ -2,5 +2,4 @@
 
 set -euo pipefail
 
-echo "Running RSpec before push..."
-bundle exec rspec
+scripts/pre-push.bash

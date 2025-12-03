@@ -8,5 +8,6 @@ bundle install
 echo "Configuring git hooks..."
 git config core.hooksPath .githooks
 chmod +x .githooks/pre-push
+chmod +x scripts/*.bash
 
 echo "Setup complete. Hooks will run RSpec before each push."

@@ -28,11 +28,11 @@ module Logs
       end
 
       def name
-        if log.name == 'Rails' && log.named_tags&.dig(:job_class)&.present?
-          hash[:name] = log.named_tags[:job_class]
-        else
-          hash[:name] = log.name
-        end
+        hash[:name] = if log.name == 'Rails' && log.named_tags && log.named_tags[:job_class].present?
+                        log.named_tags[:job_class]
+                      else
+                        log.name
+                      end
       end
 
       def mem_usage

@@ -16,14 +16,21 @@ Gem::Specification.new do |spec|
   spec.files         = Dir['lib/**/*', 'config/**/*', 'README.md']
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'rails', '>= 6.0'
-  spec.add_dependency 'rails_semantic_logger'
-  spec.add_dependency 'semantic_logger'
   spec.add_dependency 'activemodel'
   spec.add_dependency 'activesupport'
   spec.add_dependency 'get_process_mem'
+  spec.add_dependency 'rails', '>= 6.0'
+  spec.add_dependency 'rails_semantic_logger'
+  spec.add_dependency 'semantic_logger'
+
+  spec.required_ruby_version = '>= 3.1.3'
+  spec.metadata['rubygems_mfa_required'] = 'true'
 
   spec.add_development_dependency 'rspec', '~> 3.13'
+  spec.add_development_dependency 'rubocop', '~> 1.66'
+  spec.add_development_dependency 'rubocop-performance'
+  spec.add_development_dependency 'rubocop-rails'
+  spec.add_development_dependency 'rubocop-rspec'
 
   spec.metadata['source_code_uri'] = spec.homepage
 end

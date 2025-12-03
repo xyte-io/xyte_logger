@@ -27,7 +27,7 @@ Run tests with:
 bundle exec rspec
 ```
 
-To install dependencies and enable the pre-push hook that auto-runs RSpec:
+To install dependencies and enable the hooks that auto-run Rubocop and RSpec:
 
 ```bash
 bin/setup
