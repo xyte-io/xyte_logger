@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  rubocop:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1.3
+          bundler-cache: true
+
+      - name: Run Rubocop
+        run: bundle exec rubocop --parallel -c .rubocop.yml
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1.3
+          bundler-cache: true
+
+      - name: Run tests
+        run: bundle exec rspec
+
+  status:
+    runs-on: ubuntu-latest
+    needs:
+      - rubocop
+      - test
+    if: ${{ always() }}
+
+    steps:
+      - name: Aggregate job status
+        run: |
+          echo "rubocop: ${{ needs.rubocop.result }}"
+          echo "test: ${{ needs.test.result }}"
+          if [[ "${{ needs.rubocop.result }}" != "success" || "${{ needs.test.result }}" != "success" ]]; then
+            echo "One or more jobs failed."
+            exit 1
+          fi
