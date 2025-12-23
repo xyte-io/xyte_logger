@@ -8,7 +8,7 @@ Rails.application.reloader.to_prepare do
   ActiveRecord::Base.logger.level = :info
 
   Rails.application.configure do
-    is_dev = !Rails.env.development?
+    is_dev = Rails.env.development?
 
     formatter = is_dev ? :color : Logs::Formatters::Json.new
     filter = is_dev ? nil : Logs::Filters::Rails
