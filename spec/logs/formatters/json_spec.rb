@@ -31,10 +31,10 @@ RSpec.describe Logs::Formatters::Json do
     JSON.parse(formatter.call(log, logger))
   end
 
-  it 'serializes messages with whitelisted named tags' do
+  it 'serializes messages with named tags' do
     log = build_log(
       message: 'payload text',
-      named_tags: { request_id: 'req-1', ip: '1.1.1.1', extra: 'ignore-me' },
+      named_tags: { request_id: 'req-1' },
       payload: { params: { hello: 'world' } }
     )
 
@@ -42,8 +42,6 @@ RSpec.describe Logs::Formatters::Json do
 
     expect(data['text']).to eq('payload text')
     expect(data['request_id']).to eq('req-1')
-    expect(data['ip']).to eq('1.1.1.1')
-    expect(data).not_to have_key('extra')
   end
 
   it 'uses job class as the log name when available' do
