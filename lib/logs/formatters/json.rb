@@ -22,9 +22,7 @@ module Logs
       def named_tags
         return unless log.named_tags && !log.named_tags.empty?
 
-        self.hash.merge!(
-          log.named_tags.slice(:request_id, :ip, :job_id, :user, :tenant, :tenant_type, :job).compact
-        )
+        self.hash.merge!(log.named_tags.compact)
       end
 
       def name
