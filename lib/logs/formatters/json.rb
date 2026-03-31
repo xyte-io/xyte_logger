@@ -23,7 +23,10 @@ module Logs
         return unless log.named_tags && !log.named_tags.empty?
 
         self.hash.merge!(
-          log.named_tags.slice(:request_id, :ip, :job_id, :user, :tenant, :tenant_type, :job).compact
+          log.named_tags.slice(
+            :request_id, :ip, :job_id, :user, :tenant, :tenant_type, :job,
+            :integration_id, :driver, :batch_id
+          ).compact
         )
       end
 
